@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="title">
+        Cadastro Usuário
+    </ui:define>
+
+	<ui:define name="body">
+		<f:metadata>
+		</f:metadata>
+
+		<adm:breadcrumb title="Cadastro Usuário"
+			link="cadastro-usuario.xhtml" />
+		<h:form id="form" rendered="#{beanControleAcesso.acesso('sistema_usuario')}" >
+				<p:growl id="erros" showDetail="true" sticky="false" />
+				
+						<p:panelGrid columns="2">
+	
+						<p:outputLabel value="Nome:" for="nome" />
+						<p:inputText id="nome" value="#{beanUsuario.usuario.nome}" required="true" onkeyup="this.value=this.value.toUpperCase()">
+						</p:inputText>
+						  					
+						<p:outputLabel value="Data Cadastro:" for="dtcadastro" />
+						<p:calendar  disabled="true" autocomplete="#{beanUsuario.data}" locale="pt_BR" id="dtcadastro" value="#{beanUsuario.usuario.dtcadastro}"  pattern="dd/MM/yyyy" mask="true" required="true" effect="fold"/>
+						
+						<p:outputLabel value="Login:" for="login" />
+						<p:inputText id="login" value="#{beanUsuario.usuario.login}" required="true" onkeyup="this.value=this.value.toUpperCase()"/>
+						
+						<p:outputLabel value="Senha: " for="senha" />
+						<p:password id="senha" value="#{beanUsuario.usuario.senha}" required="true"/>
+						
+						<p:outputLabel value="Ativo : " for="situacao" />
+						<p:selectBooleanCheckbox id="situacao" value="#{beanUsuario.usuario.situacao}" required="true"/>
+					</p:panelGrid>
+
+					
+			<p:commandButton action="#{beanUsuario.salvar()}"
+			value="Salvar" icon="fa fa-check" styleClass="btn-primary" update="erros"/>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

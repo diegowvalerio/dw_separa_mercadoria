@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<ul class="sidebar-menu">
+	
+		<li><p:link href="/index.xhtml">
+				<i class="fa fa-home"></i>
+				<span>Inicio</span>
+			</p:link></li>
+	
+			<li><p:link href="/pages/pedido/pedido.xhtml" rendered="#{beanControleAcesso.acesso('separa_mercadoria_pedido')}">
+					<i class="fa fa-folder"></i>
+					<span>Pedido</span>
+				</p:link>
+			</li>
+	
+		<li class="treeview"><p:link href="#" rendered="#{beanControleAcesso.acesso('sistema')}" > <i class="fa fa-gears"></i>
+				<span>Sistema</span> <span class="pull-right-container"> <i
+					class="fa fa-angle-left pull-right"></i>
+			</span>
+		</p:link>
+
+			<ul class="treeview-menu">
+				<li><p:link href="/pages/sistema/backup/backup.xhtml" rendered="#{beanControleAcesso.acesso('sistema_backup')}" >
+						<i class="fa fa-database"></i>
+						<span>Backup</span>
+					</p:link></li>
+					
+				<li><p:link href="/pages/sistema/empresa/lista-empresa.xhtml" rendered="#{beanControleAcesso.acesso('sistema_empresa')}" >
+						<i class="fa fa-bars"></i>
+						<span>Empresa</span>
+					</p:link></li>
+					
+				<li><p:link href="/pages/sistema/usuario/lista-usuario.xhtml" rendered="#{beanControleAcesso.acesso('sistema_usuario')}" >
+						<i class="fa fa-user"></i>
+						<span>Usuario</span>
+					</p:link></li>
+					
+				<li><p:link href="/pages/sistema/modulo/lista-modulo.xhtml" rendered="#{beanControleAcesso.acesso('sistema_modulo')}" >
+						<i class="fa fa-bars"></i>
+						<span>Módulo</span>
+					</p:link></li>
+
+
+			</ul></li>
+
+	</ul>
+</ui:composition>
