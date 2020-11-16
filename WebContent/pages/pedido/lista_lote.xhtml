@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="head-end">
+		<style type="text/css">
+.ui-grid-row .ui-grid-col-2, .ui-grid-row .ui-grid-col-10 {
+	padding: 0.5em 0;
+	margin-left: 10px;
+}
+
+.ui-orderlist .ui-orderlist-list {
+	height: auto;
+}
+
+.ui-orderlist .ui-grid-row .ui-grid-col-2, .ui-orderlist .ui-grid-row .ui-grid-col-10
+	{
+	padding: 0;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="title">
+        Lote
+    </ui:define>
+
+	<ui:define name="description">
+        Pesquise ... 
+    </ui:define>
+
+	<ui:define name="body">
+		<adm:breadcrumb title="Lote" />
+
+		<h:form id="form">
+
+			<div class="box box-primary" >
+			
+			<p:commandButton action="lote?faces-redirect=true"
+						ajax="false" icon="fa fa-plus" value="Novo"
+						styleClass="btn-primary" />
+		
+				
+				
+					<h:panelGrid columns="1" id="paineld" columnClasses="left,right" width="100%">
+					
+						<p:dataTable id="venda" var="lotes"  paginator="true" rows="15"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                		currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} resultados"
+							value="#{beanPedido.listalote}" >
+							
+							<p:column headerText="Lote" sortBy="#{lotes.idlote}" width="5%">
+								<h:outputText value="#{lotes.idlote}" />
+							</p:column>
+							
+							<p:column headerText="Descrição" sortBy="#{lotes.nome}">
+								<h:outputText value="#{lotes.nome}" />
+							</p:column>
+
+						
+							<p:column  headerText="Data Lote" sortBy="#{lotes.datalote}" width="15%">
+								<h:outputText value="#{lotes.datalote}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+								</h:outputText>
+							</p:column>
+							
+							<p:column  headerText="Operações" width="10%">
+							
+							<p:commandButton action="#{beanPedido.excluirlote()}"
+								ajax="false" immediate="true" partialSubmit="true"  process="@this"
+								oncomplete="#{beanPedido.listalote}" icon="fa fa-trash"
+								onclick="if(!confirm('Confirma a exclusão ?')) return false;">
+								<f:setPropertyActionListener value="#{lotes}"
+									target="#{beanPedido.lote}" />
+							</p:commandButton>
+							
+							<p:commandButton icon="fa fa-eye"
+								action="#{beanPedido.encaminha()}">
+								<f:setPropertyActionListener value="#{lotes}"
+									target="#{beanPedido.lote}" />
+							</p:commandButton>
+							</p:column>
+							
+						</p:dataTable>
+					</h:panelGrid>
+					
+				</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.event.ReorderEvent;
@@ -26,7 +27,7 @@ import br.com.dw_separa_mercadoria.servico.ServicoPedido;
 
 @Named
 @ViewScoped
-public class BeanPedido implements Serializable {
+public class BeanPedidoEdita implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Lote lote = new Lote();
@@ -41,41 +42,33 @@ public class BeanPedido implements Serializable {
 	private List<Pedido> lista2 = new ArrayList<>();
 
 	private String pedidofiltrado = "";
-	private Date data;
-
-	public BeanPedido() {
-		data = new Date();
-	}
 
 	@PostConstruct
 	public void init() {
-		listalote = servicolote.consultar();
-		
-		this.lote = this.getLote();
-		this.lote.setDatalote(data);
-		this.lote.setNome("LOTE DE SEPARAÇÃO DE MERCADORIA");
+
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+		HttpSession session = (HttpSession) request.getSession();
+		this.lote = (Lote) session.getAttribute("loteAux");
 
 		this.lista2 = this.lote.getPedidos();
+
+		session.removeAttribute("loteAux");
 
 	}
 
 	public String salvar() {
-		if (lista2.size() > 0) {
 
-			try {
-				servicolote.salvar(lote);
-			} catch (Exception e) {
-				if (e.getCause().toString().contains("ConstraintViolationException")) {
-					FacesMessageUtil.addMensagemError("Registro já existente! Não foi possível realizar a operação.");
-				} else {
-					FacesMessageUtil.addMensagemError(e.getCause().toString());
-				}
+		try {
+			servicolote.salvar(lote);
+		} catch (Exception e) {
+			if (e.getCause().toString().contains("ConstraintViolationException")) {
+				FacesMessageUtil.addMensagemError("Registro já existente! Não foi possível realizar a operação.");
+			} else {
+				FacesMessageUtil.addMensagemError(e.getCause().toString());
 			}
-
-		} else {
-			FacesMessageUtil.addMensagemInfo("Não há pedidos para serem salvos");
 		}
-		
+
 		return "lista_lote";
 	}
 
@@ -88,8 +81,8 @@ public class BeanPedido implements Serializable {
 			lista = servico.consultapedidoseven(pedidofiltrado);
 			if (lista.size() > 0) {
 				pedido = lista.get(0);
-				
-				if(servico.consultapedido_existe(pedido.getPedidoid()) == 1) {
+
+				if (servico.consultapedido_existe(pedido.getPedidoid()) == 1) {
 					FacesMessageUtil.addMensagemWarn("Pedido ja está em outro lote");
 					lista.clear();
 				}
@@ -107,7 +100,7 @@ public class BeanPedido implements Serializable {
 
 			pedidofiltrado = "";
 		}
-		
+
 		atualizaordem();
 
 		lista.clear();
@@ -116,7 +109,7 @@ public class BeanPedido implements Serializable {
 	public void limpalista() {
 		lista.clear();
 	}
-	
+
 	public void removepedido() {
 		int index = lista2.indexOf(pedido);
 		if (index > -1) {
@@ -124,26 +117,18 @@ public class BeanPedido implements Serializable {
 		}
 		atualizaordem();
 	}
-	
-	public void excluirlote() {
-		if (lote.getPedidos().size() > 0) {
-			FacesMessageUtil.addMensagemWarn("Impossível Excluir, Lote possui pedidos !");
-		}else {
-			servicolote.excluir(lote.getIdlote());
-		}
-	}
-	
+
 	public void onRowReorder(ReorderEvent event) {
 		atualizaordem();
-    }
-	
+	}
+
 	public void atualizaordem() {
-		for (Pedido p :lista2) {
+		for (Pedido p : lista2) {
 			int index = lista2.indexOf(p);
 			p.setOrdenacao(index);
 		}
 	}
-	
+
 	/* editar cadastro */
 	public String encaminha() {
 		FacesContext fc = FacesContext.getCurrentInstance();
@@ -152,7 +137,7 @@ public class BeanPedido implements Serializable {
 
 		return "edita-lote";
 	}
-	
+
 	public Pedido getPedido() {
 		return pedido;
 	}
@@ -199,14 +184,6 @@ public class BeanPedido implements Serializable {
 
 	public void setListalote(List<Lote> listalote) {
 		this.listalote = listalote;
-	}
-
-	public Date getData() {
-		return data;
-	}
-
-	public void setData(Date data) {
-		this.data = data;
 	}
 
 	/* pegar usuario conectado */

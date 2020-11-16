@@ -1,0 +1,195 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="head-end">
+		<style type="text/css">
+.ui-grid-row .ui-grid-col-2, .ui-grid-row .ui-grid-col-10 {
+	padding: 0.5em 0;
+	margin-left: 10px;
+}
+
+.ui-orderlist .ui-orderlist-list {
+	height: auto;
+}
+
+.ui-orderlist .ui-grid-row .ui-grid-col-2, .ui-orderlist .ui-grid-row .ui-grid-col-10
+	{
+	padding: 0;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="title">
+        Editar Lote
+    </ui:define>
+
+	<ui:define name="description">
+        Pesquise ... 
+    </ui:define>
+
+	<ui:define name="body">
+		<adm:breadcrumb title="Pedido" />
+
+		<h:form id="form">
+			<p:growl id="erros" showDetail="true" sticky="false" />
+			<div class="box box-primary">
+				<p:panelGrid columns="4"
+					columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+					layout="grid" styleClass="ui-fluid card" id="painellote">
+
+					<p:outputLabel value=" Data: " for="datalote" />
+					<p:inputText id="datalote" value="#{beanPedidoEdita.lote.datalote}" disabled="true">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputText>
+
+					<p:outputLabel value=" Lote: " for="nome" />
+					<p:inputText id="nome" value="#{beanPedidoEdita.lote.nome}" />
+
+				</p:panelGrid>
+				<p:separator></p:separator>
+				<p:panelGrid columns="3"
+					columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+					layout="grid" styleClass="ui-fluid card" id="filtroscli">
+
+					<p:outputLabel value=" Pedido:  " for="pedidofiltrado" />
+					<p:inputText id="pedidofiltrado"
+						value="#{beanPedidoEdita.pedidofiltrado}"  />
+
+					<p:commandButton action="#{beanPedidoEdita.filtrar()}"
+						value="Buscar" icon="fa fa-check" update=":form:paineld erros"
+						styleClass="btn-primary" />
+
+				</p:panelGrid>
+			</div>
+			<div class="box box-primary">
+				<div style="overflow: scroll; width: 100%; overflow: auto">
+
+					<h:panelGrid columns="1" id="paineld" columnClasses="left,right"
+						width="100%">
+
+						<p:dataTable id="pedidos" value="#{beanPedidoEdita.lista}"
+							var="items" style="width:100%">
+
+							<p:column headerText="Pedido" width="8%">
+								<h:outputText value="#{items.pedidoid}" />
+							</p:column>
+
+							<p:column headerText="Cliente">
+								<h:outputText value="#{items.nomecliente}" />
+							</p:column>
+
+							<p:column headerText="Data Pedido" width="8%">
+								<h:outputText value="#{items.datapedido}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Vlr Pedido" width="15%">
+								<h:outputText value="#{items.valortotalpedido}">
+									<f:convertNumber type="currency" currencySymbol="R$" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Tipo" width="15%">
+								<h:outputText value="#{items.tipopedido}" />
+							</p:column>
+
+							<p:column width="10%" headerText="Operações"
+								style="text-align:center">
+
+								<p:commandButton icon="fa fa-trash"
+									action="#{beanPedidoEdita.limpalista()}" update=":form:paineld">
+								</p:commandButton>
+
+								<p:commandButton icon="fa fa-plus"
+									action="#{beanPedidoEdita.addpedido()}"
+									update=":form:paineld2 :form:paineld">
+									<f:setPropertyActionListener value="#{items}"
+										target="#{beanPedidoEdita.pedido}" />
+								</p:commandButton>
+
+							</p:column>
+
+						</p:dataTable>
+					</h:panelGrid>
+
+					<br></br>
+
+					<h:panelGrid columns="1" id="paineld2" columnClasses="left,right"
+						width="100%">
+
+						<p:dataTable id="pedidos2" value="#{beanPedidoEdita.lista2}"
+							var="items" editable="true" editMode="cell" style="width:100%"
+							draggableRows="true" sortBy="#{items.ordenacao}">
+							
+							<p:ajax event="rowReorder"
+								listener="#{beanPedidoEdita.onRowReorder}"
+								update=":form:paineld2" />
+							<f:facet name="header">Lista Pedidos</f:facet>
+
+							<p:column headerText="Pedido" width="8%">
+								<h:outputText value="#{items.pedidoid}" />
+							</p:column>
+
+							<p:column headerText="Cliente">
+								<h:outputText value="#{items.nomecliente}" />
+							</p:column>
+
+							<p:column headerText="Data Pedido" width="8%">
+								<h:outputText value="#{items.datapedido}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Vlr Pedido" width="15%">
+								<h:outputText value="#{items.valortotalpedido}">
+									<f:convertNumber type="currency" currencySymbol="R$" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Tipo" width="15%">
+								<h:outputText value="#{items.tipopedido}" />
+							</p:column>
+
+							<p:column headerText="Ordem" rendered="true" width="5%">
+								<p:cellEditor>
+									<f:facet name="output">
+										<p:outputLabel value="#{items.ordenacao}">
+										</p:outputLabel>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputNumber value="#{items.ordenacao}">
+										</p:inputNumber>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column width="10%" headerText="#" style="text-align:center">
+
+								<p:commandButton icon="fa fa-trash"
+									action="#{beanPedidoEdita.removepedido()}"
+									update=":form:paineld2">
+									<f:setPropertyActionListener value="#{items}"
+										target="#{beanPedidoEdita.pedido}" />
+								</p:commandButton>
+
+							</p:column>
+
+
+						</p:dataTable>
+					</h:panelGrid>
+				</div>
+			</div>
+
+			<p:commandButton action="#{beanPedidoEdita.salvar()}" value="Salvar"
+				icon="fa fa-check" update="erros" styleClass="btn-primary" />
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

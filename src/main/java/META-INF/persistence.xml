@@ -6,6 +6,7 @@
 		<class>br.com.dw_separa_mercadoria.entidade.UsuarioModulo</class>
 		<class>br.com.dw_separa_mercadoria.entidade.Pedido</class>
 		<class>br.com.dw_separa_mercadoria.entidade.PedidoItem</class>
+		<class>br.com.dw_separa_mercadoria.entidade.Lote</class>
 	
 		<properties>
 			

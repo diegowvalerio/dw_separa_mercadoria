@@ -23,15 +23,22 @@ public class Pedido implements Serializable {
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(nullable=true, columnDefinition="numeric(19,0)")
 	private BigDecimal pedidoid;
+	
+	@Column(nullable=true, columnDefinition="numeric(19,0)")
 	private BigDecimal codigocliente;
+	
 	private String nomecliente;
 	private Date datapedido;
 	private BigDecimal valortotalpedido;
 	private String tipopedido;
 	
-	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private Integer ordenacao;
+	
+	@ManyToOne
+	@JoinColumn(name = "idlote" , referencedColumnName="idlote" )
+	private Lote lote;
 	
 	@OneToMany(mappedBy="pedido", cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE },orphanRemoval = true,fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SUBSELECT)
@@ -115,6 +122,14 @@ public class Pedido implements Serializable {
 		this.ordenacao = ordenacao;
 	}
 
+	public Lote getLote() {
+		return lote;
+	}
+
+	public void setLote(Lote lote) {
+		this.lote = lote;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -139,6 +154,7 @@ public class Pedido implements Serializable {
 			return false;
 		return true;
 	}
-	
+
+
 
 }

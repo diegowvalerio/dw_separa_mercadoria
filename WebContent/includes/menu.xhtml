@@ -10,12 +10,23 @@
 				<i class="fa fa-home"></i>
 				<span>Inicio</span>
 			</p:link></li>
+		
+	<li class="treeview"><p:link href="#" rendered="#{beanControleAcesso.acesso('separa_mercadoria_pedido')}" > <i class="fa fa-th-list"></i>
+				<span>Separa Mercadoria</span> <span class="pull-right-container"> <i
+					class="fa fa-angle-left pull-right"></i>
+			</span>
+		</p:link>
+		
+			<ul class="treeview-menu">
 	
-			<li><p:link href="/pages/pedido/pedido.xhtml" rendered="#{beanControleAcesso.acesso('separa_mercadoria_pedido')}">
+			<li><p:link href="/pages/pedido/lista_lote.xhtml" >
 					<i class="fa fa-folder"></i>
-					<span>Pedido</span>
+					<span>Lote</span>
 				</p:link>
-			</li>
+				</li>
+				
+			</ul>
+	</li>
 	
 		<li class="treeview"><p:link href="#" rendered="#{beanControleAcesso.acesso('sistema')}" > <i class="fa fa-gears"></i>
 				<span>Sistema</span> <span class="pull-right-container"> <i

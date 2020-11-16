@@ -1,5 +1,6 @@
 package br.com.dw_separa_mercadoria.dao.generico;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -14,5 +15,7 @@ public interface DAOGenerico<E> {
 	public List<E> consultar();	
 	
 	public List<Pedido> consultapedidoseven(String codigo);
+	
+	public Integer consultapedido_existe(BigDecimal pedidoid);
 	
 }

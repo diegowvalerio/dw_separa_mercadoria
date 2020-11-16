@@ -19,14 +19,20 @@ public class PedidoItem implements Serializable {
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private Integer iditem;
 	
+	@Column(nullable=true, columnDefinition="numeric(19,0)")
 	private BigDecimal pedidoid;
-
+	
+	@Column(nullable=true, columnDefinition="numeric(19,0)")
 	private BigDecimal codigoproduto;
+	
 	private String nomeproduto;
 	private BigDecimal quantidadeproduto; 	
-	private Blob imagem;
+	
+	@Column(columnDefinition="bytea")
+	private byte[] imagem;
 	
 	private String localizacao;
+	
 	private Timestamp datahora_separacao;
 	
 	@ManyToOne
@@ -93,11 +99,11 @@ public class PedidoItem implements Serializable {
 		this.quantidadeproduto = quantidadeproduto;
 	}
 
-	public Blob getImagem() {
+	public byte[] getImagem() {
 		return imagem;
 	}
 
-	public void setImagem(Blob imagem) {
+	public void setImagem(byte[] imagem) {
 		this.imagem = imagem;
 	}
 

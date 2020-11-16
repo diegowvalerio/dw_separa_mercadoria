@@ -1,6 +1,7 @@
 package br.com.dw_separa_mercadoria.servico;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
@@ -34,6 +35,9 @@ public class ServicoPedido implements Serializable{
 		return dao.consultapedidoseven(codigo);
 	}
 	
+	public Integer consultapedido_existe(BigDecimal pedidoid) {
+		return dao.consultapedido_existe(pedidoid);
+	}
 	
 	
 	@Transacao

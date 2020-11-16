@@ -92,7 +92,7 @@ public class DAOGenericoHibernate<E> implements DAOGenerico<E>, Serializable {
 		
 		for (Object[] row : lista) {
 			
-			Pedido pedido = new Pedido();		
+			Pedido pedido = new Pedido();	
 			
 			pedido.setPedidoid((BigDecimal) row[0]);
 			pedido.setCodigocliente((BigDecimal) row[1]);
@@ -114,22 +114,33 @@ public class DAOGenericoHibernate<E> implements DAOGenerico<E>, Serializable {
 					+ " "
 					+ " from pedidovenda_item it "
 					+ " inner join produto pr on pr.produtoid = it.produtoid "
-					+ " inner join PRODUTO_IMAGEM img on img.produtoid = it.produtoid "
-					+ " inner join ALMOXARIFADO_PRODUTO al on al.PRODUTOID = pr.produtoid and al.ALMOXARIFADOID = 1 "
-					+ " inner join LOCALIZACAOPRODUTO loc on loc.LOCALIZACAOPRODUTOID = al.LOCALIZACAOPRODUTOID "
+					+ " left join PRODUTO_IMAGEM img on img.produtoid = it.produtoid "
+					+ " left join ALMOXARIFADO_PRODUTO al on al.PRODUTOID = pr.produtoid and al.ALMOXARIFADOID = 1 "
+					+ " left join LOCALIZACAOPRODUTO loc on loc.LOCALIZACAOPRODUTOID = al.LOCALIZACAOPRODUTOID "
 					+ " where it.pedidovendaid = '"+ pedido.getPedidoid().toString() +"' ");
 			List<Object[]> lista2 = query2.getResultList();
 			List<PedidoItem> list2 = new ArrayList<>();
 			
 			for (Object[] row2 : lista2) {
 				PedidoItem item = new PedidoItem();
+				Blob img = (Blob) row2[4];
+				
 				
 				item.setPedido(pedido);
 				item.setPedidoid(pedido.getPedidoid());
 				item.setCodigoproduto((BigDecimal) row2[1]);
 				item.setNomeproduto((String) row2[2]);
 				item.setQuantidadeproduto((BigDecimal) row2[3]);
-				item.setImagem((Blob) row2[4]);
+				if (img != null) {
+					try {
+						byte[] bytes = img.getBytes(1, (int) img.length());
+						item.setImagem(bytes);
+						//System.out.println("ok");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				
 				item.setLocalizacao((String) row2[5]);
 				
 				list2.add(item);
@@ -142,7 +153,20 @@ public class DAOGenericoHibernate<E> implements DAOGenerico<E>, Serializable {
 		return list;
 	}
 	
-	
+
+	public Integer consultapedido_existe(BigDecimal pedidoid) {
+		Integer t = 0;
+		Session session = manager.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(classeEntidade);
+
+		criteria.add(Restrictions.eq("pedidoid", pedidoid));
+		List<E> l = criteria.list();
+		if (l.size()>0) {
+			t = 1;
+		}
+		
+		return t;
+	}
 	
 }
 
