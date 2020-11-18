@@ -110,8 +110,8 @@ public class DAOGenericoHibernate<E> implements DAOGenerico<E>, Serializable {
 					+ " pr.NOME_PRODUTO, "
 					+ " it.QT_PEDIDOVENDA_ITEM, "
 					+ " img.IMAGEM_PRODUTO, "
-					+ " loc.DS_LOCALIZACAO "
-					+ " "
+					+ " loc.DS_LOCALIZACAO, "
+					+ " pr.REFERENCIA_ORIGINAL_PRODUTO "
 					+ " from pedidovenda_item it "
 					+ " inner join produto pr on pr.produtoid = it.produtoid "
 					+ " left join PRODUTO_IMAGEM img on img.produtoid = it.produtoid "
@@ -142,6 +142,7 @@ public class DAOGenericoHibernate<E> implements DAOGenerico<E>, Serializable {
 				}
 				
 				item.setLocalizacao((String) row2[5]);
+				item.setEan((String) row2[6]);
 				
 				list2.add(item);
 			}

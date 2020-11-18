@@ -35,6 +35,8 @@ public class PedidoItem implements Serializable {
 	
 	private Timestamp datahora_separacao;
 	
+	private String ean;
+	
 	@ManyToOne
 	@JoinColumn(name = "id" , referencedColumnName="id" )
 	private Pedido pedido;
@@ -125,6 +127,16 @@ public class PedidoItem implements Serializable {
 
 	public void setDatahora_separacao(Timestamp datahora_separacao) {
 		this.datahora_separacao = datahora_separacao;
+	}
+
+
+	public String getEan() {
+		return ean;
+	}
+
+
+	public void setEan(String ean) {
+		this.ean = ean;
 	}
 	
 	
