@@ -6,6 +6,7 @@ import com.example.dwseparamercadoria.banco.DB;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -20,6 +21,8 @@ public class PedidoItem {
     private String localizacao;
     private Timestamp datahora_separacao;
     private String ean;
+    private String separado; // sim ou nao
+    private Integer quantidadeseparada; // qtde ja separada
     private Integer id; // tabela Pedido
 
     public PedidoItem(){
@@ -32,7 +35,7 @@ public class PedidoItem {
         ArrayList<PedidoItem> lista = new ArrayList<>();
 
         try {
-            ResultSet resultSet = db.select("SELECT * FROM TBPEDIDOITEM WHERE ID ='"+idpedido+"'");
+            ResultSet resultSet = db.select("SELECT * FROM TBPEDIDOITEM WHERE ID ='"+idpedido+"' order by localizacao,nomeproduto ");
             if(resultSet != null){
                 while (resultSet.next()){
                     PedidoItem p = new PedidoItem();
@@ -44,6 +47,8 @@ public class PedidoItem {
                     p.setQuantidadeproduto(resultSet.getBigDecimal("quantidadeproduto"));
                     p.setLocalizacao(resultSet.getString("localizacao"));
                     p.setEan(resultSet.getString("ean"));
+                    p.setSeparado(resultSet.getString("separado"));
+                    p.setQuantidadeseparada(resultSet.getInt("quantidadeseparada"));
                     p.setId(resultSet.getInt("id"));
 
                     lista.add(p);
@@ -53,6 +58,40 @@ public class PedidoItem {
            e.printStackTrace();
         }
         return lista;
+    }
+
+    public PedidoItem getItem(Integer idtem){
+        DB db = new DB();
+        PedidoItem p = new PedidoItem();
+
+        try {
+            ResultSet resultSet = db.select("SELECT * FROM TBPEDIDOITEM WHERE iditem ='"+idtem+"'");
+            if(resultSet != null){
+                while (resultSet.next()) {
+                    p.setIditem(resultSet.getInt("iditem"));
+                    p.setPedidoid(resultSet.getBigDecimal("pedidoid"));
+                    p.setCodigoproduto(resultSet.getBigDecimal("codigoproduto"));
+                    p.setNomeproduto(resultSet.getString("nomeproduto"));
+                    p.setQuantidadeproduto(resultSet.getBigDecimal("quantidadeproduto"));
+                    p.setLocalizacao(resultSet.getString("localizacao"));
+                    p.setEan(resultSet.getString("ean"));
+                    p.setSeparado(resultSet.getString("separado"));
+                    p.setQuantidadeseparada(resultSet.getInt("quantidadeseparada"));
+                    p.setId(resultSet.getInt("id"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return p;
+    }
+
+    public void alterar_separado(String separado, Integer qtde){
+        String comando ="";
+        comando = ("update tbpedidoitem set separado = '"+separado+"', quantidadeseparada = "+qtde+" where iditem = '"+this.getIditem()+"' ;");
+        DB db = new DB();
+        db.execute(comando);
+
     }
 
     public Integer getIditem() {
@@ -125,5 +164,21 @@ public class PedidoItem {
 
     public void setEan(String ean) {
         this.ean = ean;
+    }
+
+    public String getSeparado() {
+        return separado;
+    }
+
+    public void setSeparado(String separado) {
+        this.separado = separado;
+    }
+
+    public Integer getQuantidadeseparada() {
+        return quantidadeseparada;
+    }
+
+    public void setQuantidadeseparada(Integer quantidadeseparada) {
+        this.quantidadeseparada = quantidadeseparada;
     }
 }

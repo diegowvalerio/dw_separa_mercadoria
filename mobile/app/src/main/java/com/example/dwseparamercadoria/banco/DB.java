@@ -69,6 +69,7 @@ public class DB extends _Default implements  Runnable{
         }catch (Exception e){
             this._status = false;
             this._mensagem = e.getMessage();
+            e.printStackTrace();
         }
         return resultSet;
     }
@@ -81,6 +82,7 @@ public class DB extends _Default implements  Runnable{
         }catch (Exception e){
             this._status = false;
             this._mensagem = e.getMessage();
+            e.printStackTrace();
         }
         return resultSet;
     }

@@ -143,6 +143,7 @@ public class DAOGenericoHibernate<E> implements DAOGenerico<E>, Serializable {
 				
 				item.setLocalizacao((String) row2[5]);
 				item.setEan((String) row2[6]);
+				item.setSeparado("NAO");
 				
 				list2.add(item);
 			}

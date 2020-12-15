@@ -36,6 +36,8 @@ public class Pedido implements Serializable {
 	
 	private Integer ordenacao;
 	
+	private String status;
+	
 	@ManyToOne
 	@JoinColumn(name = "idlote" , referencedColumnName="idlote" )
 	private Lote lote;
@@ -128,6 +130,14 @@ public class Pedido implements Serializable {
 
 	public void setLote(Lote lote) {
 		this.lote = lote;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override

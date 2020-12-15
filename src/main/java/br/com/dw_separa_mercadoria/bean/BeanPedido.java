@@ -103,6 +103,7 @@ public class BeanPedido implements Serializable {
 
 		if (!lista2.contains(pedido)) {
 			pedido.setLote(lote);
+			pedido.setStatus("ABERTO");
 			lista2.add(pedido);
 
 			pedidofiltrado = "";

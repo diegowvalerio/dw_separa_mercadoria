@@ -18,7 +18,9 @@ public class Pedido extends _Default {
     private BigDecimal valortotalpedido;
     private String tipopedido;
     private Integer ordenacao;
+    private String status;
     private Integer idlote;
+
 
     public Pedido(){
         super();
@@ -29,7 +31,7 @@ public class Pedido extends _Default {
         ArrayList<Pedido> lista = new ArrayList<>();
 
         try {
-            ResultSet resultSet = db.select("SELECT * FROM tbpedido order by idlote, ordenacao ");
+            ResultSet resultSet = db.select("SELECT * FROM tbpedido where status in ('ABERTO','PAUSADO') order by idlote, ordenacao ");
             if(resultSet != null){
                 while (resultSet.next()){
                     Pedido p = new Pedido();
@@ -41,6 +43,7 @@ public class Pedido extends _Default {
                     p.setValortotalpedido(resultSet.getBigDecimal("valortotalpedido"));
                     p.setTipopedido(resultSet.getString("tipopedido"));
                     p.setOrdenacao(resultSet.getInt("ordenacao"));
+                    p.setStatus(resultSet.getString("status"));
                     p.setIdlote(resultSet.getInt("idlote"));
 
                     lista.add(p);
@@ -53,7 +56,13 @@ public class Pedido extends _Default {
         return lista;
     }
 
+    public void alterar_status(Integer id, String status){
+        String comando ="";
+        comando = ("update tbpedido set status = '"+status+"' where id = '"+id+"' ;");
+        DB db = new DB();
+        db.execute(comando);
 
+    }
 
 
     public Integer getId() {
@@ -128,4 +137,11 @@ public class Pedido extends _Default {
         this.idlote = idlote;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

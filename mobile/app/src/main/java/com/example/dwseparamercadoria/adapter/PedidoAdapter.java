@@ -1,6 +1,7 @@
 package com.example.dwseparamercadoria.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,10 @@ public class PedidoAdapter extends ArrayAdapter<Pedido> {
 
         TextView datapedido = (TextView) convertView.findViewById(R.id.datapedido);
         datapedido.setText(dataFormatada);
+
+        if(itemPosicao.getStatus().equals("PAUSADO")){
+            layout.setBackgroundColor(Color.rgb(187 ,255,255));
+        }
 
         return convertView;
     }

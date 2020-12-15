@@ -1,6 +1,7 @@
 package com.example.dwseparamercadoria.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,12 @@ public class PedidoItemAdapter extends ArrayAdapter<PedidoItem> {
 
             TextView ean = (TextView) layout.findViewById(R.id.ean);
             ean.setText(itemPosicao.getEan());
+
+            if(itemPosicao.getSeparado() != null) {
+                if (itemPosicao.getSeparado().equals("SIM")) {
+                    layout.setBackgroundColor(Color.rgb(187 ,255,255));
+                }
+            }
         }
 
         return layout;

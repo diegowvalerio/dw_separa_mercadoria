@@ -5,9 +5,14 @@ import java.lang.String;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="tbpedidoitem")
@@ -26,6 +31,8 @@ public class PedidoItem implements Serializable {
 	private BigDecimal codigoproduto;
 	
 	private String nomeproduto;
+	
+	@Column(nullable=true, columnDefinition="numeric(19,0)")
 	private BigDecimal quantidadeproduto; 	
 	
 	@Column(columnDefinition="bytea")
@@ -35,11 +42,29 @@ public class PedidoItem implements Serializable {
 	
 	private Timestamp datahora_separacao;
 	
+	private String separado;
+	
+	private Integer quantidadeseparada;
+	
+	public String getSeparado() {
+		return separado;
+	}
+
+
+	public void setSeparado(String separado) {
+		this.separado = separado;
+	}
+
+
 	private String ean;
 	
 	@ManyToOne
 	@JoinColumn(name = "id" , referencedColumnName="id" )
 	private Pedido pedido;
+	
+	@OneToMany(mappedBy="pedidoitem", cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE },orphanRemoval = true,fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
+    private List<PedidoItem_leitura> leituras = new ArrayList<>();
 		
 
 	public PedidoItem() {
@@ -137,6 +162,26 @@ public class PedidoItem implements Serializable {
 
 	public void setEan(String ean) {
 		this.ean = ean;
+	}
+
+
+	public List<PedidoItem_leitura> getLeituras() {
+		return leituras;
+	}
+
+
+	public void setLeituras(List<PedidoItem_leitura> leituras) {
+		this.leituras = leituras;
+	}
+
+
+	public Integer getQuantidadeseparada() {
+		return quantidadeseparada;
+	}
+
+
+	public void setQuantidadeseparada(Integer quantidadeseparada) {
+		this.quantidadeseparada = quantidadeseparada;
 	}
 	
 	
