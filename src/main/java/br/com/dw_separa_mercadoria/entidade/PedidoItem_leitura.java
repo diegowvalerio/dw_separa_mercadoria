@@ -23,6 +23,8 @@ public class PedidoItem_leitura implements Serializable {
 	
 	private Timestamp datahora_separacao;
 	
+	private String usuario;
+	
 	@ManyToOne
 	@JoinColumn(name = "iditem" , referencedColumnName="iditem" )
 	private PedidoItem pedidoitem;
@@ -70,6 +72,16 @@ public class PedidoItem_leitura implements Serializable {
 
 	public void setPedidoitem(PedidoItem pedidoitem) {
 		this.pedidoitem = pedidoitem;
+	}
+
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 	
 

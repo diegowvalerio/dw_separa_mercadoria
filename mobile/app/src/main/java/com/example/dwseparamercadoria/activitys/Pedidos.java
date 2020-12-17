@@ -48,17 +48,19 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Bundle bundle = getIntent().getExtras();
         Pedido pedido = (Pedido) parent.getItemAtPosition(position);
 
         if(position == posicaocorreta || pedido.getStatus().equals("PAUSADO"))  {
 
             Intent intent = new Intent(this, Itens.class);
             intent.putExtra("idpedido", pedido.getId());
+            intent.putExtra("usuario", bundle.getString("usuario"));
             startActivity(intent);
 
 
         }else{
-            Toast.makeText(this, "Seleção Inválida, siga a sequência ou continue os pedidos pausados", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Seleção Inválida, siga a sequência ou continue os pedidos pausados "+position, Toast.LENGTH_LONG).show();
         }
     }
 

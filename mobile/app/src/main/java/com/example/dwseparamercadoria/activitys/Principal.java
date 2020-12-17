@@ -8,64 +8,52 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.dwseparamercadoria.R;
 import com.example.dwseparamercadoria.activitys.Pedidos;
+import com.example.dwseparamercadoria.entidades.Usuario;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 public class Principal extends AppCompatActivity {
-
-    Button btnScan;
-    Button btnPedidos;
+    Usuario usuario ;
+    EditText login;
+    EditText senha;
+    Button btnentrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
 
-        btnScan = findViewById(R.id.btn_Scan);
-        btnPedidos = findViewById(R.id.btnpedidos);
-
-        final Activity activity = this;
-
-        btnScan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentIntegrator integrator = new IntentIntegrator(activity);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.PRODUCT_CODE_TYPES);
-                integrator.setPrompt("Leitor de Código de Barras");
-                integrator.setCameraId(0);
-                integrator.setBeepEnabled(true);
-                integrator.setOrientationLocked(false);
-                integrator.initiateScan();
-            }
-        });
+        login = findViewById(R.id.editlogin);
+        senha = findViewById(R.id.editsenha);
+        btnentrar = findViewById(R.id.btnentrar);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
-        
-        if(result != null){
-            if(result.getContents() != null){
-                alert(result.getContents());
+
+    public void entrar(View view){
+        if(login.getText().toString().equals("") || senha.getText().toString().equals("")){
+            Toast.makeText(this, "Informe Login / Senha", Toast.LENGTH_SHORT).show();
+        }else{
+            usuario = new Usuario().getverificalogin(login.getText().toString(),senha.getText().toString());
+            if(usuario.getLogin() != null){
+                if(usuario.getSituacao() == true){
+                    Intent intent = new Intent(this, Pedidos.class);
+                    intent.putExtra("usuario", usuario.getLogin().toString());
+                    startActivity(intent);
+                    //limpa CAMPO SENHA
+                    senha.setText("");
+                }else{
+                    Toast.makeText(this, "Usuário inativo !", Toast.LENGTH_SHORT).show();
+                }
+
             }else{
-                alert("Scan Cancelado");
+                Toast.makeText(this, "Login ou Senha inválidos", Toast.LENGTH_SHORT).show();
             }
-        }else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
-    }
-    
-    private void alert(String msg){
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-    }
 
-    public void pedidos(View view){
-        Intent intent = new Intent(this, Pedidos.class);
-        startActivity(intent);
     }
 }

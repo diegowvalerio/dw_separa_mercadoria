@@ -39,6 +39,7 @@ public class Leitura extends AppCompatActivity implements AdapterView.OnItemLong
     private TextView local;
     private String ean;
     private Button btnleitura;
+    private String usuario;
 
     private Integer qtdelido;
 
@@ -86,6 +87,7 @@ public class Leitura extends AppCompatActivity implements AdapterView.OnItemLong
 
         Bundle bundle = getIntent().getExtras();
         if (bundle!=null && bundle.containsKey("item")) {
+            usuario = bundle.getString("usuario");
 
             item = new PedidoItem().getItem(bundle.getInt("item"));
             if (item != null) {
@@ -100,6 +102,7 @@ public class Leitura extends AppCompatActivity implements AdapterView.OnItemLong
 
                 calculaleituras();
             }
+
         }
     }
 
@@ -148,6 +151,7 @@ public class Leitura extends AppCompatActivity implements AdapterView.OnItemLong
                                 pedidoItem_leitura.setQtde_leitura(qtde);
                                 pedidoItem_leitura.setIditem(item.getIditem());
                                 pedidoItem_leitura.setDatahora_separacao(new Timestamp(System.currentTimeMillis()));
+                                pedidoItem_leitura.setUsuario(usuario);
                                 pedidoItem_leitura.inserir();
                                 atualizalista();
                                 calculaleituras();
@@ -177,6 +181,7 @@ public class Leitura extends AppCompatActivity implements AdapterView.OnItemLong
                         pedidoItem_leitura.setQtde_leitura(1);
                         pedidoItem_leitura.setIditem(item.getIditem());
                         pedidoItem_leitura.setDatahora_separacao(new Timestamp(System.currentTimeMillis()));
+                        pedidoItem_leitura.setUsuario(usuario);
                         pedidoItem_leitura.inserir();
                         atualizalista();
                         calculaleituras();

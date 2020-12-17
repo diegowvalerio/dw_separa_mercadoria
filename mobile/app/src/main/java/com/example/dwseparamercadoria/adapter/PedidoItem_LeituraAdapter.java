@@ -52,6 +52,9 @@ public class PedidoItem_LeituraAdapter extends ArrayAdapter<PedidoItem_leitura> 
             TextView dataleitura = (TextView) layout.findViewById(R.id.dataleitura);
             dataleitura.setText(dataFormatada);
 
+            TextView usuario = layout.findViewById(R.id.usuario);
+            usuario.setText(itemPosicao.getUsuario().toString());
+
         }
 
         return layout;

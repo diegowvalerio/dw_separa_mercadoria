@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -51,9 +52,12 @@ public class Itens extends AppCompatActivity implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Bundle bundle = getIntent().getExtras();
+
         PedidoItem item = (PedidoItem) parent.getItemAtPosition(position);
             Intent intent = new Intent(this, Leitura.class);
             intent.putExtra("item", item.getIditem());
+            intent.putExtra("usuario", bundle.getString("usuario"));
             startActivity(intent);
 
     }
@@ -74,7 +78,7 @@ public class Itens extends AppCompatActivity implements AdapterView.OnItemClickL
         List<PedidoItem> itens = new PedidoItem().getLista(bundle.getInt("idpedido"));
         for(PedidoItem i:itens){
            if(i.getQuantidadeseparada() > 0){
-               c++;
+               c = c + i.getQuantidadeseparada();
                t = t + i.getQuantidadeproduto().intValue();
            }
        }
@@ -115,6 +119,6 @@ public class Itens extends AppCompatActivity implements AdapterView.OnItemClickL
                     .setNegativeButton("Não", null)
                     .show();
         }
-
+        Log.i("QUANTIDADE-x-SEPARADA",""+t+"-"+c);
     }
 }

@@ -114,6 +114,17 @@
                 app:layout_constraintStart_toEndOf="@+id/textView11"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:background="#d6d4d4"
+                android:gravity="center"
+                android:text="Usuário"
+                android:textStyle="bold|italic"
+                app:layout_constraintStart_toEndOf="@+id/textView13"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ListView
                 android:id="@+id/listview_leitura"
                 android:layout_width="0dp"

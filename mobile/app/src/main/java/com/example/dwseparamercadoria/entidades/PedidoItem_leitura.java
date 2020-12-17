@@ -14,6 +14,7 @@ public class PedidoItem_leitura {
     private Integer idleitura;
     private Integer qtde_leitura;
     private Timestamp datahora_separacao;
+    private String usuario;
     private Integer iditem; // tabela PedidoItem
 
 
@@ -36,7 +37,7 @@ public class PedidoItem_leitura {
                     p.setQtde_leitura(resultSet.getInt("qtde_leitura"));
                     p.setDatahora_separacao(resultSet.getTimestamp("datahora_separacao"));
                     p.setIditem(resultSet.getInt("iditem"));
-
+                    p.setUsuario(resultSet.getString("usuario"));
                     lista.add(p);
                 }
             }
@@ -48,7 +49,7 @@ public class PedidoItem_leitura {
 
     public void inserir(){
         String comando ="";
-        comando = ("INSERT INTO tbpedidoitem_leitura (qtde_leitura,datahora_separacao, iditem)  VALUES ('"+ this.getQtde_leitura()+"','"+ this.getDatahora_separacao()+"','"+ this.getIditem()+"'); ");
+        comando = ("INSERT INTO tbpedidoitem_leitura (qtde_leitura,datahora_separacao, usuario ,iditem)  VALUES ('"+ this.getQtde_leitura()+"','"+ this.getDatahora_separacao()+"','"+ this.getUsuario()+"','"+ this.getIditem()+"'); ");
         DB db = new DB();
         db.execute(comando);
 
@@ -93,5 +94,11 @@ public class PedidoItem_leitura {
         this.iditem = iditem;
     }
 
+    public String getUsuario() {
+        return usuario;
+    }
 
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 }
