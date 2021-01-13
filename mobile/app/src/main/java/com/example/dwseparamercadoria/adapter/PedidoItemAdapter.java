@@ -54,6 +54,9 @@ public class PedidoItemAdapter extends ArrayAdapter<PedidoItem> {
                 if (itemPosicao.getSeparado().equals("SIM")) {
                     layout.setBackgroundColor(Color.rgb(187 ,255,255));
                 }
+                if(itemPosicao.getSeparado().equals("INICIO")){
+                    layout.setBackgroundColor(Color.rgb(255 ,235,205));
+                }
             }
         }
 

@@ -71,7 +71,7 @@ public class Leitura extends AppCompatActivity implements AdapterView.OnItemLong
                     integrator.setOrientationLocked(false);
                     integrator.initiateScan();
                 }else{
-                    alert("Todos os itens já foram sepradaos !");
+                    alert("Todos os itens já foram separados !");
                 }
             }
         });
@@ -121,7 +121,9 @@ public class Leitura extends AppCompatActivity implements AdapterView.OnItemLong
 
             if(item.getQuantidadeproduto().intValue() == qtdelido){
                 item.alterar_separado("SIM",qtdelido);
-            }else if(item.getQuantidadeproduto().intValue() != qtdelido ){
+            }else if(item.getQuantidadeproduto().intValue() != qtdelido && qtdelido > 0){
+                item.alterar_separado("INICIO",qtdelido);
+            }else{
                 item.alterar_separado("NAO",qtdelido);
             }
         }
@@ -170,7 +172,7 @@ public class Leitura extends AppCompatActivity implements AdapterView.OnItemLong
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
-           ean = "7898378252519";
+           //ean = "7898378252519";
         if(result != null){
             if(result.getContents() != null){
                 String codigo = result.getContents();
