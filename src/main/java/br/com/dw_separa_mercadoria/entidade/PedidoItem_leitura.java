@@ -25,7 +25,7 @@ public class PedidoItem_leitura implements Serializable {
 	
 	private String usuario;
 	
-	@ManyToOne
+	@ManyToOne(optional=true)
 	@JoinColumn(name = "iditem" , referencedColumnName="iditem" )
 	private PedidoItem pedidoitem;
 		
@@ -82,6 +82,33 @@ public class PedidoItem_leitura implements Serializable {
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idleitura == null) ? 0 : idleitura.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PedidoItem_leitura other = (PedidoItem_leitura) obj;
+		if (idleitura == null) {
+			if (other.idleitura != null)
+				return false;
+		} else if (!idleitura.equals(other.idleitura))
+			return false;
+		return true;
 	}
 	
 

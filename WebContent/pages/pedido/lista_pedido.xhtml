@@ -1,0 +1,98 @@
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="head-end">
+    
+		<style type="text/css">
+.ui-grid-row .ui-grid-col-2, .ui-grid-row .ui-grid-col-10 {
+	padding: 0.5em 0;
+	margin-left: 10px;
+}
+
+.ui-orderlist .ui-orderlist-list {
+	height: auto;
+}
+
+.ui-orderlist .ui-grid-row .ui-grid-col-2, .ui-orderlist .ui-grid-row .ui-grid-col-10
+	{
+	padding: 0;
+}
+
+ .color_status {  
+                background-color: #A9E2F3;  
+            }
+</style>
+     
+	</ui:define>
+
+	<ui:define name="title">
+        Pedidos
+    </ui:define>
+
+	<ui:define name="description">
+        Pesquise ... 
+    </ui:define>
+    
+
+	<ui:define name="body">
+	
+		<adm:breadcrumb title="Lote" />
+
+		<h:form id="form">
+   		 
+			<div class="box box-primary" >				
+				
+					<h:panelGrid columns="1" id="paineld" columnClasses="left,right" width="100%">
+					
+						<p:dataTable id="venda" var="lotes"  paginator="true" rows="15"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                		currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} resultados"
+							value="#{beanListaPedidos.lista}" rowStyleClass="#{lotes.status != 'ABERTO' ? 'color_status' : null}">
+							
+							<p:column headerText="Pedido" width="8%" style="font-weight:bold;font-size:16px">
+								<h:outputText value="#{lotes.pedidoid}" />
+							</p:column>
+							
+							<p:column headerText="Cliente " style="font-size:18px">
+								<h:outputText value="#{lotes.nomecliente}" />
+							</p:column>
+							
+							<p:column headerText="Tipo Pedido " >
+								<h:outputText value="#{lotes.tipopedido}" />
+							</p:column>
+						
+							<p:column  headerText="Data " width="15%">
+								<h:outputText value="#{lotes.datapedido}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+								</h:outputText>
+							</p:column>
+							
+							<p:column headerText="Status " width="10%">
+								<h:outputText value="#{lotes.status}" />
+							</p:column>
+							
+							<p:column  headerText="#" width="6%">
+							
+							<p:commandButton icon="fa fa-eye"
+								action="#{beanListaPedidos.encaminha()}">
+								<f:setPropertyActionListener value="#{lotes}"
+									target="#{beanListaPedidos.pedido}" />
+							</p:commandButton>
+							</p:column>
+							
+						</p:dataTable>
+					</h:panelGrid>
+					
+				</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

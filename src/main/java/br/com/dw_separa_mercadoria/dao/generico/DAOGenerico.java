@@ -17,5 +17,6 @@ public interface DAOGenerico<E> {
 	public List<Pedido> consultapedidoseven(String codigo);
 	
 	public Integer consultapedido_existe(BigDecimal pedidoid);
+	public List<E> consultarpedidos();
 	
 }

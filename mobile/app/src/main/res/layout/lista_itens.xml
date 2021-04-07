@@ -8,36 +8,38 @@
     <TextView
         android:id="@+id/produtoid"
         android:layout_width="50dp"
-        android:layout_height="28dp"
+        android:layout_height="45dp"
         android:text="produtoid"
         android:textSize="10sp" />
 
     <TextView
         android:id="@+id/nomeproduto"
         android:layout_width="280dp"
-        android:layout_height="28dp"
+        android:layout_height="45dp"
         android:text="nomeproduto"
-        android:textSize="10sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/qtde"
         android:layout_width="40dp"
-        android:layout_height="28dp"
+        android:layout_height="45dp"
+        android:gravity="center_horizontal"
         android:text="qtde"
-        android:textSize="10sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/localizacao"
         android:layout_width="50dp"
-        android:layout_height="28dp"
+        android:layout_height="45dp"
         android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:text="localizacao"
-        android:textSize="10sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/ean"
         android:layout_width="50dp"
-        android:layout_height="28dp"
+        android:layout_height="45dp"
         android:layout_weight="1"
         android:text="ean"
         android:textSize="10sp" />

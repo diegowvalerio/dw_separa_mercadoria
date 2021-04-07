@@ -14,7 +14,9 @@ import javax.persistence.Query;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.dw_separa_mercadoria.dao.generico.DAOGenerico;
@@ -66,6 +68,7 @@ public class DAOGenericoHibernate<E> implements DAOGenerico<E>, Serializable {
 		return manager.createQuery("from " + classeEntidade.getSimpleName()).getResultList();
 	}
 	
+	
 	//busca pedido do Seven e itens que estão na fase de conferencia com reserva de itens total
 	public List<Pedido> consultapedidoseven(String codigo){
 		List<Pedido> list = new ArrayList<>();
@@ -74,7 +77,7 @@ public class DAOGenericoHibernate<E> implements DAOGenerico<E>, Serializable {
 			"SELECT "
 			+ " PV.PEDIDOVENDAID PEDIDO, "
 			+ " P.CADCFTVID CLIENTE, "
-			+ " C.APELIDO_CADCFTV NOMECLIENTE, "
+			+ " C.NOME_CADCFTV NOMECLIENTE, "
 			+ " P.DT_PEDIDOVENDA, "
 			+ " P.VL_TOTALPROD_PEDIDOVENDA, "
 			+ " tp.DESC_TIPO_PEDIDO "
@@ -83,9 +86,9 @@ public class DAOGenericoHibernate<E> implements DAOGenerico<E>, Serializable {
 			+ " INNER JOIN PEDIDOVENDA P ON P.PEDIDOVENDAID = PV.PEDIDOVENDAID "
 			+ " INNER JOIN CADCFTV C ON C.CADCFTVID = P.CADCFTVID "
 			+ " inner join TIPO_PEDIDO tp on tp.TIPOPEDIDOID = P.TIPOPEDIDOID "
-			+ " WHERE PV.QT_TOTAL_ENTREGA = PV.QT_TOTAL "
-			+ " AND P.STATUS_PEDIDOVENDA = 'ABERTO' "
-			+ " AND P.ROTEIROID = 6 "
+			+ " WHERE P.STATUS_PEDIDOVENDA = 'ABERTO' "
+			//+ " AND PV.QT_TOTAL_ENTREGA = PV.QT_TOTAL  " //quantidade reservada igual a quantidade do pedido
+			+ " AND P.ROTEIROID in (5,6) "
 			+ " AND P.PEDIDOVENDAID = '"+ codigo +"'" );
 		
 		List<Object[]> lista = query.getResultList();
@@ -100,6 +103,7 @@ public class DAOGenericoHibernate<E> implements DAOGenerico<E>, Serializable {
 			pedido.setDatapedido((Date) row[3]);
 			pedido.setValortotalpedido((BigDecimal) row[4]);
 			pedido.setTipopedido((String) row[5]);
+			pedido.setCronometro(0);
 			
 			//adicionar itens do pedido 
 			
@@ -168,6 +172,18 @@ public class DAOGenericoHibernate<E> implements DAOGenerico<E>, Serializable {
 		}
 		
 		return t;
+	}
+	
+	@Override
+	public List<E> consultarpedidos() {
+		Session session = manager.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(classeEntidade);
+
+		criteria.add(Restrictions.in("status", new String[]{"ABERTO", "PAUSADO"}));
+		criteria.addOrder(Order.asc("lote.idlote"));
+		criteria.addOrder(Order.asc("ordenacao"));
+		
+		return criteria.list();
 	}
 	
 }

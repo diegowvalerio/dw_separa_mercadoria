@@ -41,7 +41,7 @@ public class Principal extends AppCompatActivity {
             usuario = new Usuario().getverificalogin(login.getText().toString(),senha.getText().toString());
             if(usuario.getLogin() != null){
                 if(usuario.getSituacao() == true){
-                    Intent intent = new Intent(this, Pedidos.class);
+                    Intent intent = new Intent(this, Tela.class);
                     intent.putExtra("usuario", usuario.getLogin().toString());
                     startActivity(intent);
                     //limpa CAMPO SENHA

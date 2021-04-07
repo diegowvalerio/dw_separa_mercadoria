@@ -14,4 +14,5 @@ public class FacesMessageUtil {
 	public static void addMensagemWarn(String messageKey) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção !", messageKey));
 	}
+
 }

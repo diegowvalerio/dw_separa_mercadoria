@@ -45,7 +45,12 @@ public class Pedido implements Serializable {
 	@OneToMany(mappedBy="pedido", cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE },orphanRemoval = true,fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SUBSELECT)
     private List<PedidoItem> items = new ArrayList<>();
+	
+	@Column(nullable=true)
+	private long cronometro;
 		
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date cronometro_site;
 
 	public Pedido() {
 		super();
@@ -138,6 +143,22 @@ public class Pedido implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public long getCronometro() {
+		return cronometro;
+	}
+
+	public void setCronometro(long cronometro) {
+		this.cronometro = cronometro;
+	}
+
+	public Date getCronometro_site() {
+		return cronometro_site;
+	}
+
+	public void setCronometro_site(Date cronometro_site) {
+		this.cronometro_site = cronometro_site;
 	}
 
 	@Override

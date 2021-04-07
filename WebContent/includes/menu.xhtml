@@ -19,9 +19,15 @@
 		
 			<ul class="treeview-menu">
 	
-			<li><p:link href="/pages/pedido/lista_lote.xhtml" >
+			<li><p:link href="/pages/pedido/lista_lote.xhtml" rendered="#{beanControleAcesso.acesso('separa_mercadoria_lote')}">
 					<i class="fa fa-folder"></i>
 					<span>Lote</span>
+				</p:link>
+				</li>
+				
+			<li><p:link href="/pages/pedido/lista_pedido.xhtml" rendered="#{beanControleAcesso.acesso('separa_mercadoria_separacao')}">
+					<i class="fa fa-folder"></i>
+					<span>Separação</span>
 				</p:link>
 				</li>
 				

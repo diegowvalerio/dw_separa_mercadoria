@@ -1,0 +1,171 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="head-end">
+	
+	<style type="text/css">
+.ui-grid-row .ui-grid-col-2, .ui-grid-row .ui-grid-col-10 {
+	padding: 0.5em 0;
+	margin-left: 10px;
+}
+
+.ui-orderlist .ui-orderlist-list {
+	height: auto;
+}
+
+.ui-orderlist .ui-grid-row .ui-grid-col-2, .ui-orderlist .ui-grid-row .ui-grid-col-10
+	{
+	padding: 0;
+}
+
+.color_status {
+	background-color: #FFEFDB;
+}
+
+.color_status2 {
+	background-color: #54FF9F;
+}
+</style>
+
+	</ui:define>
+
+	<ui:define name="title">
+        Items
+    </ui:define>
+
+	<ui:define name="description">
+        Pesquise ... 
+    </ui:define>
+
+
+	<ui:define name="body">
+		<adm:breadcrumb title="Lote" />
+
+		<h:form id="form">
+			<p:focus context="paineld3" />
+
+			<div class="box box-primary">
+				<div class="box-header with-border">
+
+					<p:panelGrid columns="6" id="paineld3" columnClasses="left,right"
+						width="100%">
+
+						<p:outputLabel value="Leitor:" />
+						<p:inputText id="leitura" value="#{beanListaItems.leitura}"
+							onkeypress="if (event.keyCode == 13) {  test(); return false; }"
+							binding="#{beanListaItems.uileitura}" />
+
+						<p:remoteCommand name="test"
+							actionListener="#{beanListaItems.leitor(event)}"
+							update="leitura paineld tempopainel">
+						</p:remoteCommand>
+
+						<p:commandButton icon="fa fa-mail-reply-all"
+							action="#{beanListaItems.encaminha1()}" styleClass="btn-primary">
+						</p:commandButton>
+
+						<p:inputText id="tempopainel" value="#{beanListaItems.tempo}"
+							disabled="true" binding="#{beanListaItems.uitempo}" />
+
+						<p:commandButton icon="#{beanListaItems.playpause()}"
+							action="#{beanListaItems.cronometrar()}" id="btn_cro"
+							styleClass="#{beanListaItems.cor_playpause()}"
+							update="tempopainel btn_cro">
+						</p:commandButton>
+
+
+					</p:panelGrid>
+
+
+					<div style="overflow: scroll; width: 100%; overflow: auto">
+
+						<h:panelGrid columns="1" id="paineld" columnClasses="left,right"
+							width="100%">
+
+							<p:dataTable id="pedidos" value="#{beanListaItems.lista}"
+								var="items" style="width:100%" rowKey="#{items.iditem}" selection="#{items}" selectionMode="single"
+								rowStyleClass="#{items.separado == 'SIM' ? 'color_status2' : null or items.quantidadeseparada > 0 ? 'color_status' : null}">
+
+								<p:column style="width:4rem">
+									<p:rowToggler />
+								</p:column>
+								
+								<p:ajax event="rowSelect" listener="#{beanListaItems.onRowSelect}" />
+								
+								<p:column headerText="Código" width="8%"
+									style="font-weight:bold;font-size:16px">
+									<h:outputText value="#{items.codigoproduto}" />
+								</p:column>
+
+								<p:column headerText="Produto" style="font-size:18px">
+									<h:outputText value="#{items.nomeproduto}" />
+								</p:column>
+
+								<p:column headerText="Local" width="10%" style="font-size:18px">
+									<h:outputText value="#{items.localizacao}" />
+								</p:column>
+
+								<p:column headerText="Quantidade" width="10%"
+									style="font-size:18px">
+									<h:outputText value="#{items.quantidadeproduto}" />
+								</p:column>
+
+								<p:column headerText="Separado" width="8%"
+									style="font-size:18px">
+									<h:outputText value="#{items.quantidadeseparada}" />
+								</p:column>
+
+								<p:rowExpansion>
+									<p:dataTable id="venda" var="leituras" widgetVar="dadosexp"
+										value="#{beanListaItems.item.leituras}" >
+
+										<p:column headerText="Quantidade " width="5%"
+											style="font-size:18px">
+											<h:outputText value="#{leituras.qtde_leitura}" />
+										</p:column>
+
+										<p:column headerText="Data " width="10%">
+											<h:outputText value="#{leituras.datahora_separacao}">
+												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+											</h:outputText>
+										</p:column>
+
+										<p:column headerText="Usuario " width="10%">
+											<h:outputText value="#{leituras.usuario}" />
+										</p:column>
+
+										<p:column headerText="#" width="6%">
+
+											<p:commandButton action="#{beanListaItems.excluir()}"
+												ajax="false" immediate="true" partialSubmit="true"
+												process="@this" oncomplete="#{beanListaItems.item.leituras}"
+												icon="fa fa-trash"
+												onclick="if(!confirm('Confirma a exclusão ?')) return false;">
+												<f:setPropertyActionListener value="#{leituras}"
+													target="#{beanListaItems.itemleitura}" />
+											</p:commandButton>
+										</p:column>
+
+									</p:dataTable>
+
+								</p:rowExpansion>
+
+							</p:dataTable>
+
+						</h:panelGrid>
+						<br />
+
+					</div>
+				</div>
+			</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

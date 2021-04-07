@@ -56,6 +56,7 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemClic
             Intent intent = new Intent(this, Itens.class);
             intent.putExtra("idpedido", pedido.getId());
             intent.putExtra("usuario", bundle.getString("usuario"));
+            intent.putExtra("tempo",pedido.getCronometro());
             startActivity(intent);
 
 

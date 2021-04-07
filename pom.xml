@@ -1,21 +1,22 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>dw_separa_mercadoria</groupId>
-  <artifactId>dw_separa_mercadoria</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
-  
-  <properties>
+	<groupId>dw_separa_mercadoria</groupId>
+	<artifactId>dw_separa_mercadoria</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<properties>
 		<versao.spring>3.2.6.RELEASE</versao.spring>
 		<!-- 5.0.0.RELEASE 4.1.4.RELEASE 3.2.6.RELEASE -->
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-  <dependencies>
-  		
-	<!-- servlet -->
+	<dependencies>
+
+		<!-- servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -51,6 +52,7 @@
 			<artifactId>primefaces-extensions</artifactId>
 			<version>6.0.0</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -121,9 +123,10 @@
 			<artifactId>jasperreports</artifactId>
 			<version>6.5.1</version>
 		</dependency>
-		
 
-  </dependencies>
+
+
+	</dependencies>
 
 	<build>
 		<finalName>dw_separa_mercadoria</finalName>
@@ -140,5 +143,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>

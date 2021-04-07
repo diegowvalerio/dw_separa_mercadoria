@@ -96,6 +96,7 @@ public class BeanPedidoEdita implements Serializable {
 
 		if (!lista2.contains(pedido)) {
 			pedido.setLote(lote);
+			pedido.setStatus("ABERTO");
 			lista2.add(pedido);
 
 			pedidofiltrado = "";
@@ -105,6 +106,7 @@ public class BeanPedidoEdita implements Serializable {
 
 		lista.clear();
 	}
+	
 
 	public void limpalista() {
 		lista.clear();

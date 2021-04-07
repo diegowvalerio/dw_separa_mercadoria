@@ -39,10 +39,19 @@ public class ServicoPedido implements Serializable{
 		return dao.consultapedido_existe(pedidoid);
 	}
 	
+	public List<Pedido> consultarpedidos(){
+		return dao.consultarpedidos();
+	}
+	
 	
 	@Transacao
 	public boolean excluir(Integer id){
 		return dao.excluir(id);
+	}
+	
+	public Pedido consultar(Integer id)
+	{
+		return dao.consultar(id);
 	}
 	
 	public List<Pedido> consultar(){

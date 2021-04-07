@@ -46,19 +46,9 @@ public class PedidoItem implements Serializable {
 	
 	private Integer quantidadeseparada;
 	
-	public String getSeparado() {
-		return separado;
-	}
-
-
-	public void setSeparado(String separado) {
-		this.separado = separado;
-	}
-
-
 	private String ean;
 	
-	@ManyToOne
+	@ManyToOne(optional=true)
 	@JoinColumn(name = "id" , referencedColumnName="id" )
 	private Pedido pedido;
 	
@@ -69,6 +59,14 @@ public class PedidoItem implements Serializable {
 
 	public PedidoItem() {
 		super();
+	}
+	public String getSeparado() {
+		return separado;
+	}
+
+
+	public void setSeparado(String separado) {
+		this.separado = separado;
 	}
 	
 
@@ -182,6 +180,33 @@ public class PedidoItem implements Serializable {
 
 	public void setQuantidadeseparada(Integer quantidadeseparada) {
 		this.quantidadeseparada = quantidadeseparada;
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((iditem == null) ? 0 : iditem.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PedidoItem other = (PedidoItem) obj;
+		if (iditem == null) {
+			if (other.iditem != null)
+				return false;
+		} else if (!iditem.equals(other.iditem))
+			return false;
+		return true;
 	}
 	
 	

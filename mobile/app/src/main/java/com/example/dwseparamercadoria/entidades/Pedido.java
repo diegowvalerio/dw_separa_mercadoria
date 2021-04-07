@@ -20,6 +20,7 @@ public class Pedido extends _Default {
     private Integer ordenacao;
     private String status;
     private Integer idlote;
+    private long cronometro;
 
 
     public Pedido(){
@@ -45,7 +46,67 @@ public class Pedido extends _Default {
                     p.setOrdenacao(resultSet.getInt("ordenacao"));
                     p.setStatus(resultSet.getString("status"));
                     p.setIdlote(resultSet.getInt("idlote"));
+                    p.setCronometro(resultSet.getLong("cronometro"));
+                    lista.add(p);
+                }
+            }
+        }catch (Exception e){
+            this._mensagem = e.getMessage();
+            this._status = false;
+        }
+        return lista;
+    }
 
+    public ArrayList<Pedido> getLista_Separando(){
+        DB db = new DB();
+        ArrayList<Pedido> lista = new ArrayList<>();
+
+        try {
+            ResultSet resultSet = db.select("SELECT * FROM tbpedido where status in ('SEPARANDO') order by idlote, ordenacao ");
+            if(resultSet != null){
+                while (resultSet.next()){
+                    Pedido p = new Pedido();
+                    p.setId(resultSet.getInt("id"));
+                    p.setPedidoid(resultSet.getBigDecimal("pedidoid"));
+                    p.setCodigocliente(resultSet.getBigDecimal("codigocliente"));
+                    p.setNomecliente(resultSet.getString("nomecliente"));
+                    p.setDatapedido(resultSet.getDate("datapedido"));
+                    p.setValortotalpedido(resultSet.getBigDecimal("valortotalpedido"));
+                    p.setTipopedido(resultSet.getString("tipopedido"));
+                    p.setOrdenacao(resultSet.getInt("ordenacao"));
+                    p.setStatus(resultSet.getString("status"));
+                    p.setIdlote(resultSet.getInt("idlote"));
+                    p.setCronometro(resultSet.getLong("cronometro"));
+                    lista.add(p);
+                }
+            }
+        }catch (Exception e){
+            this._mensagem = e.getMessage();
+            this._status = false;
+        }
+        return lista;
+    }
+
+    public ArrayList<Pedido> getLista_Separandos(){
+        DB db = new DB();
+        ArrayList<Pedido> lista = new ArrayList<>();
+
+        try {
+            ResultSet resultSet = db.select("SELECT * FROM tbpedido where status in ('SEPARADO') order by idlote, ordenacao ");
+            if(resultSet != null){
+                while (resultSet.next()){
+                    Pedido p = new Pedido();
+                    p.setId(resultSet.getInt("id"));
+                    p.setPedidoid(resultSet.getBigDecimal("pedidoid"));
+                    p.setCodigocliente(resultSet.getBigDecimal("codigocliente"));
+                    p.setNomecliente(resultSet.getString("nomecliente"));
+                    p.setDatapedido(resultSet.getDate("datapedido"));
+                    p.setValortotalpedido(resultSet.getBigDecimal("valortotalpedido"));
+                    p.setTipopedido(resultSet.getString("tipopedido"));
+                    p.setOrdenacao(resultSet.getInt("ordenacao"));
+                    p.setStatus(resultSet.getString("status"));
+                    p.setIdlote(resultSet.getInt("idlote"));
+                    p.setCronometro(resultSet.getLong("cronometro"));
                     lista.add(p);
                 }
             }
@@ -59,6 +120,14 @@ public class Pedido extends _Default {
     public void alterar_status(Integer id, String status){
         String comando ="";
         comando = ("update tbpedido set status = '"+status+"' where id = '"+id+"' ;");
+        DB db = new DB();
+        db.execute(comando);
+
+    }
+
+    public void alterar_cronometro(Integer id, Long tempo){
+        String comando ="";
+        comando = ("update tbpedido set cronometro = '"+tempo+"' where id = '"+id+"' ;");
         DB db = new DB();
         db.execute(comando);
 
@@ -143,5 +212,13 @@ public class Pedido extends _Default {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public long getCronometro() {
+        return cronometro;
+    }
+
+    public void setCronometro(long cronometro) {
+        this.cronometro = cronometro;
     }
 }

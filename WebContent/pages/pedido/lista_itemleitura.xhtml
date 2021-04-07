@@ -1,0 +1,97 @@
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="head-end">
+
+		<style type="text/css">
+.ui-grid-row .ui-grid-col-2, .ui-grid-row .ui-grid-col-10 {
+	padding: 0.5em 0;
+	margin-left: 10px;
+}
+
+.ui-orderlist .ui-orderlist-list {
+	height: auto;
+}
+
+.ui-orderlist .ui-grid-row .ui-grid-col-2, .ui-orderlist .ui-grid-row .ui-grid-col-10
+	{
+	padding: 0;
+}
+
+.color_status {
+	background-color: #A9E2F3;
+}
+</style>
+
+	</ui:define>
+
+	<ui:define name="title">
+        Leituras
+    </ui:define>
+
+	<ui:define name="body">
+
+		<adm:breadcrumb title="Leituras" />
+
+		<h:form id="form">
+
+			<div class="box box-primary">
+				<div class="box-header with-border">
+
+					<p:panelGrid columns="6" id="paineld3" columnClasses="left,right"
+						width="100%">
+						
+						<p:commandButton icon="fa fa-mail-reply-all"
+							action="#{beanListaItemLeitura.encaminha1()}" styleClass="btn-primary">
+						</p:commandButton>
+						
+					</p:panelGrid>
+				</div>
+				
+				<h:panelGrid columns="1" id="paineld" columnClasses="left,right"
+					width="100%">
+
+					<p:dataTable id="venda" var="leituras"
+						value="#{beanListaItemLeitura.listaleitura}">
+
+						<p:column headerText="Quantidade " style="font-size:18px">
+							<h:outputText value="#{leituras.qtde_leitura}" />
+						</p:column>
+
+						<p:column headerText="Data " width="15%">
+							<h:outputText value="#{leituras.datahora_separacao}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Usuario " width="10%">
+							<h:outputText value="#{leituras.usuario}" />
+						</p:column>
+
+						<p:column headerText="#" width="6%">
+
+							<p:commandButton action="#{beanListaItemLeitura.excluir()}"
+								 oncomplete="#{beanListaItemLeitura.listaleitura}"
+								icon="fa fa-trash"
+								onclick="if(!confirm('Confirma a exclusão ?')) return false;">
+								<f:setPropertyActionListener value="#{leituras}"
+									target="#{beanListaItemLeitura.itemleitura}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</h:panelGrid>
+
+			</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

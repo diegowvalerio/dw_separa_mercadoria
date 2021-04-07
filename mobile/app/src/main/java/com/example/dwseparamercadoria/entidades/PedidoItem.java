@@ -21,6 +21,7 @@ public class PedidoItem {
     private String localizacao;
     private Timestamp datahora_separacao;
     private String ean;
+    private byte[] imagem;
     private String separado; // sim ou nao
     private Integer quantidadeseparada; // qtde ja separada
     private Integer id; // tabela Pedido
@@ -50,7 +51,7 @@ public class PedidoItem {
                     p.setSeparado(resultSet.getString("separado"));
                     p.setQuantidadeseparada(resultSet.getInt("quantidadeseparada"));
                     p.setId(resultSet.getInt("id"));
-
+                    p.setImagem(resultSet.getBytes("imagem"));
                     lista.add(p);
                 }
             }
@@ -78,6 +79,7 @@ public class PedidoItem {
                     p.setSeparado(resultSet.getString("separado"));
                     p.setQuantidadeseparada(resultSet.getInt("quantidadeseparada"));
                     p.setId(resultSet.getInt("id"));
+                    p.setImagem(resultSet.getBytes("imagem"));
                 }
             }
         } catch (Exception e) {
@@ -180,5 +182,13 @@ public class PedidoItem {
 
     public void setQuantidadeseparada(Integer quantidadeseparada) {
         this.quantidadeseparada = quantidadeseparada;
+    }
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
     }
 }

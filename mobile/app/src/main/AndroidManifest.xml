@@ -12,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activitys.Leitura"></activity>
+        <activity android:name=".activitys.Separados"></activity>
+        <activity android:name=".activitys.Separando" />
+        <activity android:name=".activitys.Tela" />
+        <activity android:name=".activitys.Leitura" />
         <activity android:name=".activitys.Itens" />
         <activity android:name=".activitys.Pedidos" />
         <activity android:name=".activitys.Principal">
@@ -22,7 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
